@@ -13,3 +13,4 @@ MonoGame project with a simple flood shader.
 * Scroll the mouse wheel to zoom in or out.
 * Press and hold the middle mouse click to pan the view.
 * Press and hold the left mouse click to select rectangles.
+* Press and hold the right mouse click to draw.
