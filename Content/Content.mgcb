@@ -19,6 +19,12 @@
 /processorParam:DebugMode=Auto
 /build:brown.fx
 
+#begin edge.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:edge.fx
+
 #begin grow.fx
 /importer:EffectImporter
 /processor:EffectProcessor

@@ -66,6 +66,7 @@ namespace GameProject {
             Assets.Solution = new RenderTarget2D(Global.Game.GraphicsDevice, w, h);
 
             Assets.Grow.Parameters["unit"].SetValue(new Vector2(1f / w, 1f / h));
+            Assets.Edge.Parameters["unit"].SetValue(new Vector2(1f / w, 1f / h));
             if (w < h) {
                 Assets.Brown.Parameters["ratio"].SetValue(new Vector2(w / (float)h, 1f));
             } else {
@@ -299,7 +300,7 @@ namespace GameProject {
         protected override void Draw(GameTime gameTime) {
             _fps.Draw();
 
-            GraphicsDevice.Clear(new Color(0, 0, 0));
+            GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.SetRenderTarget(Assets.Seed);
             if (_isInitialSeed) {
@@ -335,6 +336,11 @@ namespace GameProject {
 
             GraphicsDevice.SetRenderTarget(null);
             _s.Begin(effect: Assets.Brown);
+            _s.FillRectangle(Assets.Seed.Bounds, Color.White * 0.2f);
+            _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
+            _s.End();
+
+            _s.Begin(effect: Assets.Edge);
             _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
             _s.End();
 

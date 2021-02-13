@@ -77,8 +77,8 @@ float4 PS(float4 pos : SV_POSITION, float4 color : COLOR, float4 texCoord : TEXC
         clamp(length(r.x), 0.0, 1.0)
     );
 
-    float4 center = tex2D(TextureSampler, texCoord.xy);
-    return float4(c, 1.0) * center;
+    float center = tex2D(TextureSampler, texCoord.xy).x;
+    return float4(c, 1.0) * center * color;
 }
 
 technique wind {
