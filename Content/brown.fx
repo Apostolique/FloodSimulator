@@ -78,7 +78,6 @@ float4 PS(float4 pos : SV_POSITION, float4 color : COLOR, float4 texCoord : TEXC
     );
 
     float4 center = tex2D(TextureSampler, texCoord.xy);
-    // float4 center = float4(1, 1, 1, 1);
     return float4(c, 1.0) * center;
 }
 

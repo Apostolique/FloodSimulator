@@ -15,6 +15,7 @@ namespace GameProject {
 
         public static ICondition CameraDrag = new MouseCondition(MouseButton.MiddleButton);
         public static ICondition SelectionDrag = new Track.MouseCondition(MouseButton.LeftButton);
+        public static ICondition Draw = new Track.MouseCondition(MouseButton.RightButton);
 
         public static ICondition Undo =
             new AllCondition(

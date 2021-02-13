@@ -84,6 +84,9 @@ namespace GameProject {
 
             if (Triggers.ResetSolution.Pressed()) _isInitialSeed = true;
             if (Triggers.StartNewSeed.Pressed()) _startNewSeed = true;
+            if (Triggers.Draw.Held()) {
+                _startNewSeed = true;
+            }
 
             if (Triggers.ResetDroppedFrames.Pressed()) _fps.DroppedFrames = 0;
             bool shiftModifier = Triggers.AddToSelection.Held();
@@ -301,11 +304,17 @@ namespace GameProject {
             GraphicsDevice.SetRenderTarget(Assets.Seed);
             if (_isInitialSeed) {
                 _isInitialSeed = false;
-                GraphicsDevice.Clear(new Color(0, 0, 0));
+                GraphicsDevice.Clear(Color.Black);
             } else if (_startNewSeed) {
                 _startNewSeed = false;
                 _s.Begin();
-                _s.FillRectangle(new RectangleF(InputHelper.NewMouse.Position.ToVector2(), new Vector2(1, 1)), Color.White);
+                var oldMouse = InputHelper.OldMouse.Position.ToVector2();
+                var newMouse = InputHelper.NewMouse.Position.ToVector2();
+                if (oldMouse != newMouse) {
+                    _s.DrawLine(oldMouse, newMouse, Color.White, 1);
+                } else {
+                    _s.FillRectangle(new RectangleF(newMouse, new Vector2(1, 1)), Color.White);
+                }
                 _s.End();
             }
 
@@ -316,7 +325,6 @@ namespace GameProject {
 
             GraphicsDevice.SetRenderTarget(Assets.Solution);
             _s.Begin(effect: Assets.Grow);
-            // _s.Begin(effect: Assets.Brown);
             _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
             _s.End();
 
@@ -327,7 +335,6 @@ namespace GameProject {
 
             GraphicsDevice.SetRenderTarget(null);
             _s.Begin(effect: Assets.Brown);
-            // _s.Begin();
             _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
             _s.End();
 
@@ -336,13 +343,13 @@ namespace GameProject {
             _edit.Draw(_s);
 
             foreach (var e in _quadtree.Query(Camera.WorldBounds, Camera.Angle, Camera.Origin).OrderBy(e => e))
-                e.Draw(_s, new Color(20, 20, 20));
+                e.DrawHighlight(_s, 2f, 2f, new Color(80, 80, 80));
             foreach (var e in _quadtree.Query(Camera.WorldBounds, Camera.Angle, Camera.Origin).OrderBy(e => e))
-                e.DrawHighlight(_s, 0f, 2f, new Color(80, 80, 80));
+                e.Draw(_s, new Color(20, 20, 20));
             foreach (var e in _selectedEntities.Query(Camera.WorldBounds, Camera.Angle, Camera.Origin))
-                e.DrawHighlight(_s, 0f, 2f, Color.White);
+                e.DrawHighlight(_s, 2f, 2f, Color.White);
             foreach (var e in GetHovers(true))
-                e.DrawHighlight(_s, -2f, 3f, Color.Black);
+                e.DrawHighlight(_s, 0f, 3f, Color.Black);
             _s.End();
 
             // var font = Assets.FontSystem.GetFont(30);
