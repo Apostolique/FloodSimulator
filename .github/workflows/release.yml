@@ -8,7 +8,7 @@ on:
 env:
   ITCH_GAME_NAME: FloodSimulator
   ITCH_USER_NAME: apos
-  BUILD_PATH: Platforms/DesktopGL
+  PROJECT_PATH: Platforms/DesktopGL
 
 jobs:
   build:
