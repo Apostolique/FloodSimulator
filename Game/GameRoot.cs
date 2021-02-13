@@ -13,6 +13,7 @@ namespace GameProject {
     public class GameRoot : Game {
         public GameRoot() {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
         }
@@ -63,12 +64,20 @@ namespace GameProject {
             Assets.Seed.Dispose();
             Assets.Seed = new RenderTarget2D(Global.Game.GraphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             Assets.Solution = new RenderTarget2D(Global.Game.GraphicsDevice, w, h);
+
+            Assets.Grow.Parameters["unit"].SetValue(new Vector2(1f / w, 1f / h));
+            if (w < h) {
+                Assets.Brown.Parameters["ratio"].SetValue(new Vector2(w / (float)h, 1f));
+            } else {
+                Assets.Brown.Parameters["ratio"].SetValue(new Vector2(1f, h / (float)w));
+            }
         }
 
         protected override void Update(GameTime gameTime) {
             // TODO: Start creating an API over the entity quadtree dictionary, etc. For addition, removal, updates.
             InputHelper.UpdateSetup();
             _fps.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
+            Assets.Brown.Parameters["time"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds * 0.0001f);
 
             if (Triggers.Quit.Pressed())
                 Exit();
@@ -296,8 +305,7 @@ namespace GameProject {
             } else if (_startNewSeed) {
                 _startNewSeed = false;
                 _s.Begin();
-                _currentColor = (_currentColor + 1) % _superColors.Length;
-                _s.FillRectangle(new RectangleF(InputHelper.NewMouse.Position.ToVector2(), new Vector2(1, 1)), _superColors[_currentColor]);
+                _s.FillRectangle(new RectangleF(InputHelper.NewMouse.Position.ToVector2(), new Vector2(1, 1)), Color.White);
                 _s.End();
             }
 
@@ -308,6 +316,7 @@ namespace GameProject {
 
             GraphicsDevice.SetRenderTarget(Assets.Solution);
             _s.Begin(effect: Assets.Grow);
+            // _s.Begin(effect: Assets.Brown);
             _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
             _s.End();
 
@@ -317,7 +326,8 @@ namespace GameProject {
             _s.End();
 
             GraphicsDevice.SetRenderTarget(null);
-            _s.Begin();
+            _s.Begin(effect: Assets.Brown);
+            // _s.Begin();
             _s.Draw(Assets.Seed, Vector2.Zero, Color.White);
             _s.End();
 
@@ -335,11 +345,11 @@ namespace GameProject {
                 e.DrawHighlight(_s, -2f, 3f, Color.Black);
             _s.End();
 
-            var font = Assets.FontSystem.GetFont(30);
-            _s.Begin();
-            // Draw UI
-            _s.DrawString(font, $"fps: {_fps.FramesPerSecond} - Dropped Frames: {_fps.DroppedFrames} - Draw ms: {_fps.TimePerFrame} - Update ms: {_fps.TimePerUpdate}", new Vector2(10, 10), Color.White);
-            _s.End();
+            // var font = Assets.FontSystem.GetFont(30);
+            // _s.Begin();
+            // // Draw UI
+            // _s.DrawString(font, $"fps: {_fps.FramesPerSecond} - Dropped Frames: {_fps.DroppedFrames} - Draw ms: {_fps.TimePerFrame} - Update ms: {_fps.TimePerUpdate}", new Vector2(10, 10), Color.White);
+            // _s.End();
 
             base.Draw(gameTime);
         }
@@ -448,12 +458,5 @@ namespace GameProject {
 
         bool _isInitialSeed = true;
         bool _startNewSeed = false;
-
-        int _currentColor = 0;
-        Color[] _superColors = {
-            Color.Red,
-            Color.Blue,
-            Color.Green
-        };
     }
 }

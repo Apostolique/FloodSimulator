@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin brown.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:brown.fx
+
 #begin grow.fx
 /importer:EffectImporter
 /processor:EffectProcessor

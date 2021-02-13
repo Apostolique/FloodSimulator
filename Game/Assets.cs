@@ -20,11 +20,22 @@ namespace GameProject {
         }
         public static void LoadShaders(ContentManager content) {
             Grow = content.Load<Effect>("grow");
-            Grow.Parameters["unit"].SetValue(new Vector2(1f / Global.Game.Window.ClientBounds.Width, 1f / Global.Game.Window.ClientBounds.Height));
+            Brown = content.Load<Effect>("brown");
+
+            var w = Global.Game.Window.ClientBounds.Width;
+            var h = Global.Game.Window.ClientBounds.Height;
+
+            Grow.Parameters["unit"].SetValue(new Vector2(1f / w, 1f / h));
+            if (w < h) {
+                Brown.Parameters["ratio"].SetValue(new Vector2(w / (float)h, 1f));
+            } else {
+                Brown.Parameters["ratio"].SetValue(new Vector2(1f, h / (float)w));
+            }
         }
 
         public static FontSystem FontSystem = null!;
         public static Effect Grow = null!;
+        public static Effect Brown = null!;
         public static RenderTarget2D Seed = null!;
         public static RenderTarget2D Solution = null!;
     }
