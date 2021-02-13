@@ -11,6 +11,6 @@ MonoGame project with a simple flood shader.
 * Press `F2` to reset the dropped frames counter.
 * Press `F1` to spawn 10k rectangles randomly. (It's best to zoom out so there are holes for the flood to fill.)
 * Scroll the mouse wheel to zoom in or out.
-* Press and hold the middle mouse click to pan the view.
-* Press and hold the left mouse click to select rectangles.
-* Press and hold the right mouse click to draw.
+* Press and hold the middle mouse button to pan the view.
+* Press and hold the left mouse button to select rectangles.
+* Press and hold the right mouse button to draw.
