@@ -14,3 +14,7 @@ MonoGame project with a simple flood shader.
 * Press and hold the middle mouse button to pan the view.
 * Press and hold the left mouse button to select rectangles.
 * Press and hold the right mouse button to draw.
+
+## Release
+
+Get the builds on [itch.io](https://apos.itch.io/floodsimulator).
