@@ -61,7 +61,7 @@ namespace GameProject {
                 h = 1;
             }
             Assets.Seed.Dispose();
-            Assets.Seed.Dispose();
+            Assets.Solution.Dispose();
             Assets.Seed = new RenderTarget2D(Global.Game.GraphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             Assets.Solution = new RenderTarget2D(Global.Game.GraphicsDevice, w, h);
 
